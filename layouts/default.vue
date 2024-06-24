@@ -1,15 +1,17 @@
 <script setup>
 import PageContainer from '@/components/common/PageContainer.vue';
+import Header from '@/components/common/header/Header.vue';
 import Bgs from '@/components/common/bgs/Bgs.vue';
 </script>
 
 <template>
   <main class="main">
+    <Bgs />
+
     <PageContainer>
+      <Header />
       <NuxtPage />
     </PageContainer>
-
-    <Bgs />
   </main>
 </template>
 

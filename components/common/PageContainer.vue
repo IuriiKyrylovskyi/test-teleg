@@ -11,5 +11,8 @@
   height: 100%;
   padding: 0 16px;
   margin: 0 auto;
+
+  position: relative;
+  z-index: 1;
 }
 </style>
