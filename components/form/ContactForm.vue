@@ -110,82 +110,143 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
 
 <template>
   <div class="form-card">
-    <FormKit
-      id="fk-univ-app"
-      type="form"
-      form-class="fk-univ-app"
-      submit-label="🛬 Dispatch 🛫"
-      incomplete-message="Sorry. The application was not submitted because not all fields are filled out correctly."
-      @submit="submitApplication"
-      :actions="false"
-      #default="{ value, state, disabled }"
-    >
-      <FormKit
-        name="fullName"
-        type="text"
-        label=""
-        validation="required"
-        validation-label="fullName"
-        validation-visibility="blur"
-        placeholder="Ваше имя и фамилия"
-      />
-      <FormKit
-        name="phone"
-        type="tel"
-        label=""
-        validation="required|matches:/^[0-9]{10}$/"
-        validation-label="phone"
-        validation-visibility="blur"
-        placeholder="Ваш номер телефона"
-      />
-      <FormKit
-        name="email"
-        type="email"
-        label=""
-        validation="required|email"
-        validation-label="Your email"
-        validation-visibility="blur"
-        placeholder="example@example.com"
-      />
-
-      <FormKit
-        v-if="!isLoading"
-        type="submit"
-        label="Записаться бесплатно"
-        :disabled="!state?.valid"
-      />
-      <button v-if="isLoading" class="button" @click="handleClose">
-        sending...
-      </button>
-    </FormKit>
+    <div class="form-inner">
+      <h2 class="form-title">
+        Запишитесь <span>бесплатно</span> и получите подарок
+      </h2>
+      <div class="form-items">
+        <FormKit
+          id="fk-univ-app"
+          type="form"
+          form-class="fk-univ-app"
+          submit-label="🛬 Dispatch 🛫"
+          incomplete-message="Sorry. The application was not submitted because not all fields are filled out correctly."
+          @submit="submitApplication"
+          :actions="false"
+          #default="{ value, state, disabled }"
+        >
+          <FormKit
+            name="fullName"
+            type="text"
+            label=""
+            validation="required"
+            validation-label="fullName"
+            validation-visibility="blur"
+            placeholder="Ваше имя и фамилия"
+          />
+          <FormKit
+            name="phone"
+            type="tel"
+            label=""
+            validation="required|matches:/^[0-9]{10}$/"
+            validation-label="phone"
+            validation-visibility="blur"
+            placeholder="Ваш номер телефона"
+          />
+          <FormKit
+            name="email"
+            type="email"
+            label=""
+            validation="required|email"
+            validation-label="Your email"
+            validation-visibility="blur"
+            placeholder="example@example.com"
+          />
+          <FormKit
+            v-if="!isLoading"
+            type="submit"
+            label="Записаться бесплатно"
+            :disabled="!state?.valid"
+          />
+          <button v-if="isLoading" class="button loading" @click="handleClose">
+            sending...
+          </button>
+        </FormKit>
+      </div>
+      <div class="agree">
+        Нажимая на кнопку я согашаюсь
+        <a href="#"> с политикой конфидециальности </a>
+      </div>
+    </div>
   </div>
 </template>
 
-<style>
+<style lang="scss">
 .form-card {
-  max-width: 500px;
+  flex: 0 0 366px;
+  max-width: 366px;
   width: 100%;
-}
-.formkit-outer {
-  margin-bottom: 34px;
+  border-radius: 10px;
+  background: var(--vt-c-rhino);
+  padding: 50px 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 820px) {
+    padding: 20px;
+  }
 }
 
-div.formkit-wrapper {
+.form-inner {
+  flex: 0 0 250px;
+  max-width: 250px;
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 8px;
+  gap: 20px;
+}
+
+.form-items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 25.991px; /* 118.14% */
+
+  & span {
+    color: var(--vt-c-red);
+  }
+}
+
+.agree {
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  font-weight: 500;
+  line-height: 149%; /* 17.88px */
+  & a {
+    display: block;
+    color: inherit;
+  }
+}
+
+/* ----- formkit styles ----  */
+.formkit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.formkit-outer {
+}
+
+.formkit-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 label.formkit-wrapper {
   display: flex;
   gap: 6px;
   margin-bottom: 8px;
-}
-
-.formkit-label {
-  font-size: 26px;
-  font-weight: 600;
 }
 
 .formkit-inner {
@@ -196,52 +257,32 @@ label.formkit-wrapper {
   margin: 0;
 }
 .formkit-option .formkit-inner {
-  max-width: fit-content;
-  width: 100%;
-  border-radius: 4px;
-  padding: 0;
-  margin: 0;
 }
 
 .formkit-inner input {
   width: 100%;
-  padding: 2px 10px;
-  border: 3px solid #fff;
-  border-radius: 4px;
-  outline: none;
-  color: #000;
+  height: 51px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  background: #272d3d;
 }
 .formkit-inner input:focus-within {
   outline: none;
-  border: 3px solid rgba(42, 132, 184, 0.8);
+  border: 3px solid var(--vt-c-blue);
 }
 .formkit-inner input:focus {
-  border: 3px solid rgba(42, 132, 184, 0.8);
+  border: 3px solid var(--vt-c-blue);
 }
-.formkit-inner textarea {
-  width: 100%;
-  padding: 2px 10px;
-  border: 3px solid #fff;
-  border-radius: 4px;
-  outline: none;
-  color: #000;
-  min-height: 38px;
-}
-.formkit-inner textarea:focus-within {
-  outline: none;
-  border: 3px solid rgba(42, 132, 184, 0.8);
-}
-.formkit-inner textarea:focus {
-  border: 3px solid rgba(42, 132, 184, 0.8);
-}
+
 .formkit-message {
-  font-size: 18px;
-  color: rgb(255, 117, 117);
+  font-size: 12px;
+  color: var(--vt-c-red);
+  margin-top: 4px;
 }
 
 .formkit-help {
   font-size: 20px;
-  color: red;
+  color: var(--vt-c-red);
 }
 
 .formkit-input[type='checkbox'] {
@@ -254,30 +295,25 @@ span.formkit-label {
 }
 
 button.formkit-input {
-  flex: 0 0 fit-content;
-  display: inline-flex;
+  width: 100%;
+  max-width: 250px;
+  height: 51px;
+  flex-shrink: 0;
+  background: var(--vt-c-red);
+  border-radius: 5px;
 
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
+  color: var(--vt-c-white);
 
-  background: #ffeb3b;
-  border-radius: 8px;
-  padding: 10px 20px;
-  margin: 20px auto;
-
-  color: #000;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 24px; /* 160% */
 
   transition: all linear 0.3s;
+  cursor: pointer;
 
-  width: 100%;
-}
-
-button.formkit-input:hover {
-  background: hsla(240, 30%, 41%, 0.8);
-  border-radius: 8px;
-  padding: 10px 20px;
-  color: #fff;
+  &:hover {
+    background: rgba(255, 52, 89, 0.8);
+  }
 }
 
 button.formkit-input:disabled {
@@ -289,24 +325,33 @@ button.formkit-input:disabled:hover {
   color: #000;
 }
 
-.button {
-  flex: 0 0 fit-content;
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-
-  background: #ffeb3b;
-  border-radius: 8px;
-  padding: 10px 20px;
-  margin: 20px auto;
-
-  color: #000;
-
+.loading {
   width: 100%;
+  max-width: 250px;
+  height: 51px;
+  flex-shrink: 0;
+  background: #ffeb3b;
+  border-radius: 5px;
 
-  opacity: 0.8;
+  color: var(--vt-c-black);
+
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 24px; /* 160% */
+
   cursor: not-allowed;
+}
+
+input.formkit-input {
+  color: var(--vt-c-white);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 184.615% */
+  padding: 10px 22px;
+
+  ::placeholder {
+    color: var(--vt-c-white-placeholder);
+  }
 }
 </style>
