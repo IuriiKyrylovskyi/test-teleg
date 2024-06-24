@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Webinar from '@/components/webinar/Webinar.vue';
 import ContactForm from '@/components/form/ContactForm.vue';
+import WebinarListMob from '@/components/webinar/WebinarListMob.vue';
 import Modal from '@/components/modals/Modal.vue';
 
 export interface IModalItem {
@@ -25,6 +26,7 @@ const handleCloseModal = () => {
   <div class="row">
     <Webinar />
     <ContactForm @handleModalResponse="handleModalResponse" />
+    <WebinarListMob />
     <Modal :modalItem="modalItem" @handleCloseModal="handleCloseModal" />
   </div>
 </template>
@@ -36,5 +38,12 @@ const handleCloseModal = () => {
   gap: 20px;
 
   margin: 92px 0;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+    margin: 36px 0;
+  }
 }
 </style>

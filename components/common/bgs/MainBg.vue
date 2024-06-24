@@ -20,6 +20,7 @@
 
   & img {
     object-position: 0 0;
+    object-fit: cover;
   }
 }
 </style>

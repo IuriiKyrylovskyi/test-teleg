@@ -16,7 +16,7 @@ const { item } = toRefs(props);
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .chip {
   flex: 0 0 141px;
   width: 141px;
@@ -27,5 +27,19 @@ const { item } = toRefs(props);
   gap: 8px;
   border-radius: 10px;
   background: var(--vt-c-tuna);
+
+  @media (max-width: 767px) {
+    flex: 0 0 88px;
+    width: 88px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    gap: 4px;
+    font-size: 11px;
+
+    & img {
+      max-width: 12px;
+    }
+  }
 }
 </style>

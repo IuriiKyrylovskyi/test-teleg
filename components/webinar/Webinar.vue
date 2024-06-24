@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import WebinarList from '@/components/webinar/WebinarList.vue';
+</script>
 
 <template>
   <div class="column">
@@ -19,37 +21,7 @@
       как начать карьеру в востребованной профессии
     </p>
 
-    <ul class="list">
-      <li class="li">
-        <div class="li-imgbox">
-          <img
-            class="li-img"
-            src="@/assets/images/man.png"
-            alt="Кирилл КАСАТОНОВ"
-          />
-        </div>
-        <div class="li-content">
-          <p class="li-title uppercase">
-            Кирилл <span class="blue">КАСАТОНОВ</span>
-          </p>
-          <p class="li-text">
-            6 лет коммерческого опыта с такими компаниями как Mercedes-Benz и
-            другими крупными корпорациями
-          </p>
-        </div>
-      </li>
-      <li class="li">
-        <div class="li-imgbox">
-          <img class="li-img" src="@/assets/images/box.png" alt="present" />
-        </div>
-        <div class="li-content">
-          <p class="li-title">Бонус за регистрацию</p>
-          <p class="li-text">
-            PDF-файл "5 преимуществ профессии фронтенд разработчика"
-          </p>
-        </div>
-      </li>
-    </ul>
+    <WebinarList />
   </div>
 </template>
 
@@ -78,6 +50,22 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 24px; /* 150% */
+
+  @media (max-width: 767px) {
+    width: 89px;
+    height: 24px;
+    flex-shrink: 0;
+    gap: 4px;
+
+    font-size: 12px;
+    line-height: 18px;
+
+    margin: 0 auto;
+
+    & img {
+      max-width: 13px;
+    }
+  }
 }
 
 h1 {
@@ -87,6 +75,11 @@ h1 {
   font-weight: 800;
   line-height: normal;
   text-transform: uppercase;
+
+  @media (max-width: 767px) {
+    font-size: 53px;
+    text-align: center;
+  }
 }
 
 .subtitle {
@@ -126,6 +119,19 @@ h1 {
       z-index: -1;
     }
   }
+
+  @media (max-width: 767px) {
+    font-size: 15px;
+    gap: 12px;
+    justify-content: center;
+
+    &-chip {
+      flex: 0 0 76px;
+      width: 76px;
+      height: 28px;
+      font-size: 16px;
+    }
+  }
 }
 
 .text {
@@ -137,6 +143,12 @@ h1 {
 
   & span {
     font-weight: 600;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+    text-align: center;
+    margin: 20px 0 -16px;
   }
 }
 
@@ -168,6 +180,19 @@ h1 {
     }
     &-text {
       line-height: 160%; /* 19.2px */
+    }
+  }
+
+  @media (max-width: 767px) {
+    &.desktop {
+      display: none;
+    }
+  }
+  @media (max-width: 767px) {
+    display: none;
+
+    &.mobile {
+      display: flex;
     }
   }
 }

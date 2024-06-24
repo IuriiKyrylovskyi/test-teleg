@@ -21,11 +21,17 @@ const chips = ref([
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .chips {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 18px;
+
+  @media (max-width: 767px) {
+    gap: 6px;
+
+    flex-wrap: wrap;
+  }
 }
 </style>

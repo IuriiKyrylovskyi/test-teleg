@@ -165,7 +165,7 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
       </div>
       <div class="agree">
         Нажимая на кнопку я согашаюсь
-        <a href="#"> с политикой конфидециальности </a>
+        <a href="#" @click.stop.prevent> с политикой конфидециальности </a>
       </div>
     </div>
   </div>
@@ -185,7 +185,15 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
   justify-content: center;
 
   @media (max-width: 820px) {
-    padding: 20px;
+    flex: 0 1 366px;
+    min-width: 286px;
+    padding: 41px 21px;
+  }
+
+  @media (max-width: 767px) {
+    flex: 0 1 366px;
+    min-width: 286px;
+    border-radius: 9px;
   }
 }
 
@@ -197,6 +205,12 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @media (max-width: 767px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    gap: 18px;
+  }
 }
 
 .form-items {
@@ -215,6 +229,12 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
   & span {
     color: var(--vt-c-red);
   }
+
+  @media (max-width: 767px) {
+    max-width: 223px;
+    font-size: 20px;
+    margin: 0 auto;
+  }
 }
 
 .agree {
@@ -225,6 +245,10 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
   & a {
     display: block;
     color: inherit;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 11px;
   }
 }
 
@@ -265,6 +289,10 @@ label.formkit-wrapper {
   flex-shrink: 0;
   border-radius: 5px;
   background: #272d3d;
+
+  @media (max-width: 767px) {
+    height: 46px;
+  }
 }
 .formkit-inner input:focus-within {
   outline: none;
@@ -278,6 +306,10 @@ label.formkit-wrapper {
   font-size: 12px;
   color: var(--vt-c-red);
   margin-top: 4px;
+
+  @media (max-width: 767px) {
+    height: 11px;
+  }
 }
 
 .formkit-help {
@@ -314,6 +346,16 @@ button.formkit-input {
   &:hover {
     background: rgba(255, 52, 89, 0.8);
   }
+
+  @media (max-width: 767px) {
+    height: 46px;
+    background: #0048ff;
+
+    font-size: 14px;
+
+    max-width: 222px;
+    margin: 0 auto;
+  }
 }
 
 button.formkit-input:disabled {
@@ -340,6 +382,13 @@ button.formkit-input:disabled:hover {
   line-height: 24px; /* 160% */
 
   cursor: not-allowed;
+
+  @media (max-width: 767px) {
+    height: 46px;
+    font-size: 14px;
+    max-width: 222px;
+    margin: 0 auto;
+  }
 }
 
 input.formkit-input {

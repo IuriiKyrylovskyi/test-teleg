@@ -19,5 +19,10 @@ header {
   padding: 24px 56px;
 
   margin: 10px 0 0;
+
+  @media (max-width: 767px) {
+    margin: 28px 0 0;
+    padding: 0px 0 0 14px;
+  }
 }
 </style>

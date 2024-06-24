@@ -25,5 +25,11 @@ import { Routes } from '@/interfaces/global';
     height: 100%;
     object-fit: contain;
   }
+
+  @media (max-width: 767px) {
+    flex: 0 0 101px;
+    width: 101px;
+    aspect-ratio: 101 / 32;
+  }
 }
 </style>
