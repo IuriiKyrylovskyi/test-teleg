@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Webinar from '@/components/webinar/Webinar.vue';
 import ContactForm from '@/components/form/ContactForm.vue';
 import Modal from '@/components/modals/Modal.vue';
 
@@ -21,9 +22,19 @@ const handleCloseModal = () => {
 </script>
 
 <template>
-  <div class="">
-    <div class="">{{ modalItem }}</div>
+  <div class="row">
+    <Webinar />
     <ContactForm @handleModalResponse="handleModalResponse" />
     <Modal :modalItem="modalItem" @handleCloseModal="handleCloseModal" />
   </div>
 </template>
+
+<style scoped lang="scss">
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin: 92px 0;
+}
+</style>

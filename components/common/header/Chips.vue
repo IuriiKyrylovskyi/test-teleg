@@ -14,6 +14,7 @@ const chips = ref([
   },
 ]);
 </script>
+
 <template>
   <div class="chips">
     <HeaderChip v-for="c in chips" :key="c.alt" :item="c" />

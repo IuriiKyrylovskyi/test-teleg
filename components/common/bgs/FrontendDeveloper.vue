@@ -17,6 +17,6 @@
   left: 0;
   width: 100%;
   aspect-ratio: 1400 / 159;
-  transform: translateY(15%);
+  transform: translateY(25%);
 }
 </style>

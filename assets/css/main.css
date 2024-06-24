@@ -57,3 +57,11 @@ body {
   height: 100%;
   object-fit: contain;
 }
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.blue {
+  color: var(--vt-c-blue);
+}
