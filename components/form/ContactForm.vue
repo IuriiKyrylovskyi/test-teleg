@@ -151,7 +151,7 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
       <FormKit
         v-if="!isLoading"
         type="submit"
-        label="🛬 Dispatch 🛫"
+        label="Записаться бесплатно"
         :disabled="!state?.valid"
       />
       <button v-if="isLoading" class="button" @click="handleClose">

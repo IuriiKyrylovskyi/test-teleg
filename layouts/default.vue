@@ -1,5 +1,6 @@
 <script setup>
 import PageContainer from '@/components/common/PageContainer.vue';
+import Bgs from '@/components/common/bgs/Bgs.vue';
 </script>
 
 <template>
@@ -7,6 +8,8 @@ import PageContainer from '@/components/common/PageContainer.vue';
     <PageContainer>
       <NuxtPage />
     </PageContainer>
+
+    <Bgs />
   </main>
 </template>
 
@@ -15,5 +18,7 @@ import PageContainer from '@/components/common/PageContainer.vue';
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+
+  position: relative;
 }
 </style>
