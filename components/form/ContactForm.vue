@@ -59,11 +59,51 @@ const sendMessage = async (message: string) => {
   }
 };
 
+const sendEmail = async (d: IData) => {
+  isLoading.value = true;
+
+  try {
+    const { data, pending, error, refresh } = await useFetch(
+      `/api/send-me-email`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: {
+          subject: 'Visitor question',
+          to: d.emailFrom,
+          toMeData: d,
+        },
+      }
+    );
+
+    if (error.value) {
+      throw new Error();
+    }
+
+    handleModalResponse({ message: 'Email is sent successfully!' });
+  } catch (error: IErrorResponse | any) {
+    handleModalResponse({
+      message: unsuccessMessage,
+      error: true,
+    });
+  } finally {
+    isLoading.value = false;
+  }
+};
+
 function submitApplication(data: IFormikData, node: FormKitNode) {
   const { email, fullName, phone } = data;
 
-  const result = sendMessage({
+  sendMessage({
     message: `Full Name: ${fullName}\nPhone: ${phone}\nEmail: ${email}`,
+  });
+
+  sendEmail({
+    question: data.question,
+    emailFrom: data.email,
   });
 }
 </script>
