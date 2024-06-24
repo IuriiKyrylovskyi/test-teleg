@@ -133,7 +133,7 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
         name="phone"
         type="tel"
         label=""
-        validation="[['required'], ['matches', /^\d{3}-\d{3}-\d{4}$/]], [['number']]"
+        validation="required|matches:/^[0-9]{10}$/"
         validation-label="phone"
         validation-visibility="blur"
         placeholder="Ваш номер телефона"
