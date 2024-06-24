@@ -4,7 +4,7 @@ import { unsuccessMessage } from '~/utils/constants/unsuccessMessage';
 import type { IErrorResponse } from '~/interfaces/error';
 import type { IFormikData } from '~/interfaces/formikData';
 import type { IData } from '@/interfaces/global';
-import type { IModalItem } from './ContactMe.vue';
+import type { IModalItem } from '@/components/home/HomeComponent';
 
 const emit = defineEmits<{
   (e: 'handleModalResponse', item: IModalItem): void;
@@ -14,16 +14,21 @@ const handleModalResponse = (item: IModalItem) => {
   emit('handleModalResponse', item);
 };
 
+const handleCloseModal = () => {
+  document.body.classList.remove('overflow-y-hidden');
+  modalItem.value = null;
+};
+
 const isLoading = ref(false);
 
 const formId = ref('fk-univ-app');
 
-const sendEmail = async (d: IData) => {
+const sendMessage = async (message: string) => {
   isLoading.value = true;
 
   try {
     const { data, pending, error, refresh } = await useFetch(
-      `/api/send-me-email`,
+      `/api/send-message`,
       {
         method: 'POST',
         headers: {
@@ -31,18 +36,19 @@ const sendEmail = async (d: IData) => {
           'Content-Type': 'application/json',
         },
         body: {
-          subject: 'Visitor question',
-          to: d.emailFrom,
-          toMeData: d,
+          message,
         },
       }
     );
 
-    if (error.value) {
+    if (data._rawValue.code === 400) {
       throw new Error();
     }
 
-    handleModalResponse({ message: 'Email is sent successfully!' });
+    handleModalResponse({
+      message: 'Email is sent successfully!',
+      error: false,
+    });
   } catch (error: IErrorResponse | any) {
     handleModalResponse({
       message: unsuccessMessage,
@@ -54,9 +60,10 @@ const sendEmail = async (d: IData) => {
 };
 
 function submitApplication(data: IFormikData, node: FormKitNode) {
-  const result = sendEmail({
-    question: data.question,
-    emailFrom: data.email,
+  const { email, fullName, phone } = data;
+
+  const result = sendMessage({
+    message: `Full Name: ${fullName}\nPhone: ${phone}\nEmail: ${email}`,
   });
 }
 </script>
@@ -74,44 +81,33 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
       #default="{ value, state, disabled }"
     >
       <FormKit
-        name="question"
-        type="textarea"
-        label="Enter your question:"
-        validation="required|length:10,1000"
-        validation-label="Your question"
+        name="fullName"
+        type="text"
+        label=""
+        validation="required"
+        validation-label="fullName"
         validation-visibility="blur"
-        rows="6"
-      >
-        <template #help="context">
-          <div :class="[context.classes.help]">
-            <span class="italic text-blue-300">
-              {{ 1000 - (context._value ? context._value.length : 0) }} / 1000
-              characters remaining
-            </span>
-          </div>
-        </template>
-      </FormKit>
-
+        placeholder="Ваше имя и фамилия"
+      />
+      <FormKit
+        name="phone"
+        type="tel"
+        label=""
+        validation="[['required'], ['matches', /^\d{3}-\d{3}-\d{4}$/]], [['number']]"
+        validation-label="phone"
+        validation-visibility="blur"
+        placeholder="Ваш номер телефона"
+      />
       <FormKit
         name="email"
         type="email"
-        label="Enter your email:"
+        label=""
         validation="required|email"
         validation-label="Your email"
         validation-visibility="blur"
         placeholder="example@example.com"
       />
 
-      <FormKit
-        name="ukraїner"
-        type="checkbox"
-        validation="required|min:1"
-        :options="[
-          `I do NOT support russia's attack on Ukraine. Crimea and Donbas are Ukraine.`,
-        ]"
-        outer-class="flex flex-col gap-2"
-        label-class="text-xl text-white md:text-xl font-bold ml-2 cursor-pointer"
-      />
       <FormKit
         v-if="!isLoading"
         type="submit"
