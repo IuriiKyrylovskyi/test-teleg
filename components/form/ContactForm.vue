@@ -3,8 +3,12 @@ import { FormKit } from '@formkit/vue';
 import { unsuccessMessage } from '~/utils/constants/unsuccessMessage';
 import type { IErrorResponse } from '~/interfaces/error';
 import type { IFormikData } from '~/interfaces/formikData';
-import type { IData } from '@/interfaces/global';
-import type { IModalItem } from '@/components/home/HomeComponent';
+import type { IData, IModalItem } from '@/interfaces/global';
+
+interface IResponseData {
+  message: string;
+  code: 400 | 200;
+}
 
 const emit = defineEmits<{
   (e: 'handleModalResponse', item: IModalItem): void;
@@ -14,45 +18,37 @@ const handleModalResponse = (item: IModalItem) => {
   emit('handleModalResponse', item);
 };
 
-const handleCloseModal = () => {
-  document.body.classList.remove('overflow-y-hidden');
-  modalItem.value = null;
-};
-
 const isLoading = ref(false);
-
-const formId = ref('fk-univ-app');
 
 const sendMessage = async (message: string) => {
   isLoading.value = true;
 
   try {
-    const { data, pending, error, refresh } = await useFetch(
-      `/api/send-message`,
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/json',
-        },
-        body: {
-          message,
-        },
-      }
-    );
+    const response = await useFetch(`/api/send-message`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: {
+        message,
+      },
+    });
 
-    if (data._rawValue.code === 400) {
+    const data = response.data as unknown as Ref<IResponseData>;
+
+    if (data.value?.code === 400) {
       throw new Error();
     }
 
     handleModalResponse({
       message: 'Email is sent successfully!',
-      error: false,
+      isError: false,
     });
-  } catch (error: IErrorResponse | any) {
+  } catch (err: IErrorResponse | any) {
     handleModalResponse({
       message: unsuccessMessage,
-      error: true,
+      isError: true,
     });
   } finally {
     isLoading.value = false;
@@ -83,11 +79,14 @@ const sendEmail = async (d: IData) => {
       throw new Error();
     }
 
-    handleModalResponse({ message: 'Email is sent successfully!' });
+    handleModalResponse({
+      message: 'Email is sent successfully!',
+      isError: false,
+    });
   } catch (error: IErrorResponse | any) {
     handleModalResponse({
       message: unsuccessMessage,
-      error: true,
+      isError: true,
     });
   } finally {
     isLoading.value = false;
@@ -97,12 +96,10 @@ const sendEmail = async (d: IData) => {
 function submitApplication(data: IFormikData, node: FormKitNode) {
   const { email, fullName, phone } = data;
 
-  sendMessage({
-    message: `Full Name: ${fullName}\nPhone: ${phone}\nEmail: ${email}`,
-  });
+  sendMessage(`Full Name: ${fullName}\nPhone: ${phone}\nEmail: ${email}`);
 
   sendEmail({
-    question: data.question,
+    question: `${data.fullName} visited the site`,
     emailFrom: data.email,
   });
 }
@@ -158,9 +155,7 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
             label="Записаться бесплатно"
             :disabled="!state?.valid"
           />
-          <button v-if="isLoading" class="button loading" @click="handleClose">
-            sending...
-          </button>
+          <button v-if="isLoading" class="button loading">sending...</button>
         </FormKit>
       </div>
       <div class="agree">

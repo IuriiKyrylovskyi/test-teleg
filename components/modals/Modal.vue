@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { RouteNames, Routes } from '@/interfaces/global';
-
-import type { IModalItem } from '@/components/contactMe/ContactMe.vue';
+import type { IModalItem } from '~/interfaces/global';
 
 const emit = defineEmits<{
   (e: 'handleCloseModal'): void;
@@ -26,7 +24,7 @@ watchEffect(() => {
     document.body.classList.add('overflow-y-hidden');
     open.value = true;
 
-    errorClass.value = modalItem?.value?.error ? 'error' : '';
+    errorClass.value = modalItem?.value?.isError ? 'error' : '';
   }
 });
 
@@ -42,13 +40,13 @@ const handleClose = () => {
       <div v-if="open" class="modal">
         <div class="modal-inner">
           <img
-            v-if="modalItem?.error"
+            v-if="modalItem?.isError"
             src="@/assets/images/email-failed.png"
             alt="error icon"
             class="max-w-[170px]"
           />
           <img
-            v-if="!modalItem?.error"
+            v-if="!modalItem?.isError"
             src="@/assets/images/email-success.png"
             alt="success icon"
           />

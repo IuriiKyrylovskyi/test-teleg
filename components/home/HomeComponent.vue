@@ -3,11 +3,7 @@ import Webinar from '@/components/webinar/Webinar.vue';
 import ContactForm from '@/components/form/ContactForm.vue';
 import WebinarListMob from '@/components/webinar/WebinarListMob.vue';
 import Modal from '@/components/modals/Modal.vue';
-
-export interface IModalItem {
-  message: string;
-  isError: boolean;
-}
+import type { IModalItem } from '~/interfaces/global';
 
 const modalItem = ref<IModalItem | null>(null);
 
