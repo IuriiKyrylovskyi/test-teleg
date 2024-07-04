@@ -5,6 +5,8 @@ import type { IErrorResponse } from '~/interfaces/error';
 import type { IFormikData } from '~/interfaces/formikData';
 import type { IData, IModalItem } from '@/interfaces/global';
 
+import VueTelInput from '~/components/common/inputs/VueTelInput.vue';
+
 interface IResponseData {
   message: string;
   code: 400 | 200;
@@ -19,6 +21,11 @@ const handleModalResponse = (item: IModalItem) => {
 };
 
 const isLoading = ref(false);
+const isPhoneInputValid = ref(false);
+
+const tel = createInput(VueTelInput, {
+  props: ['digits'],
+});
 
 const sendMessage = async (message: string) => {
   isLoading.value = true;
@@ -93,6 +100,10 @@ const sendEmail = async (d: IData) => {
   }
 };
 
+const setValid = (key: boolean) => {
+  isPhoneInputValid.value = key;
+};
+
 function submitApplication(data: IFormikData, node: FormKitNode) {
   const { email, fullName, phone } = data;
 
@@ -103,6 +114,8 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
     emailFrom: data.email,
   });
 }
+
+console.log('isPhoneInputValid--->>>>>>', isPhoneInputValid.value);
 </script>
 
 <template>
@@ -133,13 +146,13 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
           />
           <FormKit
             name="phone"
-            type="tel"
+            :type="tel"
             label=""
-            validation="required|matches:/^[0-9]{10}$/"
+            validation="required"
             validation-label="phone"
             validation-visibility="blur"
             placeholder="Ваш номер телефона"
-          />
+          ></FormKit>
           <FormKit
             name="email"
             type="email"
@@ -253,8 +266,6 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
   flex-direction: column;
   gap: 14px;
 }
-.formkit-outer {
-}
 
 .formkit-wrapper {
   display: flex;
@@ -274,14 +285,16 @@ label.formkit-wrapper {
   border-radius: 4px;
   padding: 0;
   margin: 0;
-}
-.formkit-option .formkit-inner {
+
+  input {
+    border: 3px solid #272d3d;
+  }
 }
 
 .formkit-inner input {
   width: 100%;
   height: 51px;
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
   border-radius: 5px;
   background: #272d3d;
 

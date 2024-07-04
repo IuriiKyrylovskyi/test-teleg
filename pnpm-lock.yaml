@@ -29,6 +29,9 @@ importers:
       vue-router:
         specifier: ^4.3.0
         version: 4.4.0(vue@3.4.30)
+      vue-tel-input:
+        specifier: ^9.1.4
+        version: 9.1.4
     devDependencies:
       '@nuxtjs/tailwindcss':
         specifier: ^6.12.0
@@ -2417,6 +2420,9 @@ packages:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}
     engines: {node: '>= 0.6.3'}
 
+  libphonenumber-js@1.11.4:
+    resolution: {integrity: sha512-F/R50HQuWWYcmU/esP5jrH5LiWYaN7DpN0a/99U8+mnGGtnx8kmRE+649dQh3v+CowXXZc8vpkf5AmYkO0AQ7Q==}
+
   lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
     engines: {node: '>=10'}
@@ -3852,6 +3858,9 @@ packages:
     resolution: {integrity: sha512-HB+t2p611aIZraV2aPSRNXf0Z/oLZFrlygJm+sZbdJaW6lcFqEDQwnzUBXn+DApw+/QzDU/I9TeWx9izEjTmsA==}
     peerDependencies:
       vue: ^3.2.0
+
+  vue-tel-input@9.1.4:
+    resolution: {integrity: sha512-e2y8kYBe+iSEdPTEGGNxMzkNJuCEZBKv5HREw/CMAUMY7hlP8WP8wqebu060PJgDGv0JOSlkY/tnyXnAraX3DQ==}
 
   vue@3.4.30:
     resolution: {integrity: sha512-NcxtKCwkdf1zPsr7Y8+QlDBCGqxvjLXF2EX+yi76rV5rrz90Y6gK1cq0olIhdWGgrlhs9ElHuhi9t3+W5sG5Xw==}
@@ -6610,6 +6619,8 @@ snapshots:
     dependencies:
       readable-stream: 2.3.8
 
+  libphonenumber-js@1.11.4: {}
+
   lilconfig@2.1.0: {}
 
   lilconfig@3.1.2: {}
@@ -8296,6 +8307,13 @@ snapshots:
     dependencies:
       '@vue/devtools-api': 6.6.3
       vue: 3.4.30
+
+  vue-tel-input@9.1.4:
+    dependencies:
+      libphonenumber-js: 1.11.4
+      vue: 3.4.30
+    transitivePeerDependencies:
+      - typescript
 
   vue@3.4.30:
     dependencies:
