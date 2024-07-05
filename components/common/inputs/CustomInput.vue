@@ -67,5 +67,9 @@ export default defineComponent({
     color: #ffffff;
     padding-left: 40px;
   }
+
+  .iti__country-name {
+    color: #000000;
+  }
 }
 </style>
