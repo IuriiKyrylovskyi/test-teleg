@@ -5,7 +5,7 @@ import type { IErrorResponse } from '~/interfaces/error';
 import type { IFormikData } from '~/interfaces/formikData';
 import type { IData, IModalItem } from '@/interfaces/global';
 
-import VueTelInput from '~/components/common/inputs/VueTelInput.vue';
+import Vue3IntlInput from '~/components/common/inputs/Vue3IntlInput.vue';
 
 interface IResponseData {
   message: string;
@@ -21,11 +21,10 @@ const handleModalResponse = (item: IModalItem) => {
 };
 
 const isLoading = ref(false);
-const isPhoneInputValid = ref(false);
+const isTouched = ref(false);
 
-const tel = createInput(VueTelInput, {
-  props: ['digits'],
-});
+const contact_number = ref('contact_number');
+const number = ref('');
 
 const sendMessage = async (message: string) => {
   isLoading.value = true;
@@ -100,12 +99,15 @@ const sendEmail = async (d: IData) => {
   }
 };
 
-const setValid = (key: boolean) => {
-  isPhoneInputValid.value = key;
+const handleInputToched = () => {
+  isTouched.value = true;
 };
 
 function submitApplication(data: IFormikData, node: FormKitNode) {
-  const { email, fullName, phone } = data;
+  const { email, fullName } = data;
+
+  const phoneInput = document.querySelector('#custom-input-contact-number');
+  const phone = phoneInput ? phoneInput.value : '';
 
   sendMessage(`Full Name: ${fullName}\nPhone: ${phone}\nEmail: ${email}`);
 
@@ -114,8 +116,6 @@ function submitApplication(data: IFormikData, node: FormKitNode) {
     emailFrom: data.email,
   });
 }
-
-console.log('isPhoneInputValid--->>>>>>', isPhoneInputValid.value);
 </script>
 
 <template>
@@ -144,15 +144,25 @@ console.log('isPhoneInputValid--->>>>>>', isPhoneInputValid.value);
             validation-visibility="blur"
             placeholder="Ваше имя и фамилия"
           />
-          <FormKit
-            name="phone"
-            :type="tel"
-            label=""
-            validation="required"
-            validation-label="phone"
-            validation-visibility="blur"
-            placeholder="Ваш номер телефона"
-          ></FormKit>
+          <Vue3IntlInput
+            :ref="contact_number"
+            id="contact-number"
+            v-model="number"
+            @handleInputToched="handleInputToched"
+          />
+          <ul
+            v-if="contact_number.isValidNumber === false && isTouched"
+            class="formkit-messages"
+          >
+            <li
+              class="formkit-message"
+              id="input_0-rule_required"
+              data-message-type="validation"
+            >
+              Enter a valid phone number
+            </li>
+          </ul>
+
           <FormKit
             name="email"
             type="email"
@@ -166,7 +176,11 @@ console.log('isPhoneInputValid--->>>>>>', isPhoneInputValid.value);
             v-if="!isLoading"
             type="submit"
             label="Записаться бесплатно"
-            :disabled="!state?.valid"
+            :disabled="
+              !state?.valid ||
+              (contact_number.isValidNumber === false && isTouched) ||
+              !isTouched
+            "
           />
           <button v-if="isLoading" class="button loading">sending...</button>
         </FormKit>
@@ -180,7 +194,7 @@ console.log('isPhoneInputValid--->>>>>>', isPhoneInputValid.value);
 </template>
 
 <style lang="scss">
-.form-card {
+xx .form-card {
   flex: 0 0 366px;
   max-width: 366px;
   width: 100%;
